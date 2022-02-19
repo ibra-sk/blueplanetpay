@@ -1,0 +1,128 @@
+<?php
+	$account = $this->view_data['account'];
+	if($account['status'] == 'active'  ){ $color = 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100';}
+	if($account['status'] == 'inactive'){ $color = 'text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100';}
+	if($account['status'] == 'pending' ){ $color = 'text-orange-700 bg-orange-100 dark:bg-yellow-700 dark:text-yellow-100';}
+	if($account['status'] == 'review' ){ $color = 'block dark:border-gray-600 dark:focus:shadow-outline-gray text-black bg-gray-700 dark:bg-gray-700 dark:text-white';}
+?>	
+	<main class="h-full overflow-y-auto" x-data="{ 'showModal': false }" @keydown.escape="{showModal = false}" x-cloak>
+        <div class="container px-6 mx-auto grid">
+			<div class="flex items-stretch justify-items-stretch my-6 ">
+				<h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 w-1/2">Account Settings</h2>
+				<span class="px-4 py-1 uppercase font-semibold rounded-full <?=$color?>"><?=$account['status']?></span>
+			</div>
+			<?php
+				//Check if Account is Not Verified
+				if($account['status'] == 'pending'){
+					echo '<a class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-orange-700 bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" href="'.DOMAIN.'portal/account/verification">
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+							</svg>
+							<span>This Account is not Active Yet, Please Upload your KYC information for review.</span>
+						</div>
+						<span>Upload Now →</span>
+					</a>';
+				}
+			
+			?>
+			<!--Overlay TopUp-->
+			<div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'absolute inset-0 z-10 flex items-center justify-center': showModal }">
+				<!--Dialog-->
+				<div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg py-4 text-left px-6" x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="hidden" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="hidden">
+
+					<!--Title-->
+					<div class="flex justify-between items-center pb-3">
+						<p class="text-2xl font-bold">Top Up Payment</p>
+						<div class="cursor-pointer z-50" @click="showModal = false">
+							<svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+								<path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+							</svg>
+						</div>
+					</div>
+
+					<!-- content -->
+					<p>Enter your Phone Number and Amount to send.</p>
+					<input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input mt-4" type="number" placeholder="Phone Number" value="256789140565" id="tpPhone" disabled required>
+					<input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input mb-4" type="number" placeholder="Enter amount to send" id="tpAmount" required>
+					
+
+					<!--Footer-->
+					<div class="flex justify-end pt-2">
+						<button class="px-4 bg-blue-300 p-3 rounded-lg text-indigo-500 hover:bg-blue-100 hover:text-indigo-400 mr-2" @click="">Send</button>
+						<button class="modal-close px-4 bg-red-600 p-3 rounded-lg text-white hover:bg-red-400" @click="showModal = false">Close</button>
+					</div>
+
+
+				</div>
+				<!-- End Dialog -->
+			</div>
+			<!-- End Overlay -->
+			<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Full Name</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Firstname Lastname" value="<?=$account['fullname']?>" disabled>
+					</div>
+				</label>
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Phone Number</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Firstname Lastname" value="<?=$account['phone_number']?>" disabled>
+					</div>
+				</label>
+				<label class="block mt-4 mb-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">
+						Email Address
+					</span>
+					<div class="relative text-gray-500 focus-within:text-purple-600">
+						<input class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="yourself@email.com" value="<?=$account['email']?>" disabled>
+						<button class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+							Reset New Password
+						</button>
+					</div>
+				</label>
+            </div>
+			<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">
+						ACCESS KEY
+					</span>
+					<div class="relative text-gray-500 focus-within:text-purple-600" x-data="{ show: true }">
+						<input :type="show ? 'password' : 'text'" class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" type="password" placeholder="XXXXXXXXXXXXXXX" value="<?=$account['access_key']?>">
+						<div class="absolute inset-y-0 right-0 pr-6 flex items-center text-sm leading-5">
+							<svg class="h-6 text-gray-700" fill="none" @click="show = !show"
+							  :class="{'hidden': !show, 'block':show }" xmlns="http://www.w3.org/2000/svg"
+							  viewbox="0 0 576 512">
+							  <path fill="currentColor"
+								d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z">
+							  </path>
+							</svg>
+							<svg class="h-6 text-gray-700" fill="none" @click="show = !show"
+							  :class="{'block': !show, 'hidden':show }" xmlns="http://www.w3.org/2000/svg"
+							  viewbox="0 0 640 512">
+							  <path fill="currentColor"
+								d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z">
+							  </path>
+							</svg>
+						</div>
+						
+					</div>
+					
+				</label>
+				<label class="block mt-4 mb-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">MEMBER ID</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Public Member Key" value="<?=$account['member_id']?>">
+					</div>
+				</label>
+            </div>
+		</div>
+		
+    </main>
+	
+</div>
+</div>

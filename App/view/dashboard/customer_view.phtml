@@ -1,0 +1,329 @@
+<?php
+	$user = $this->view_data['user'];
+	$sum = $this->view_data['sum'];
+	$txsum = $this->view_data['txsum'];
+	$tx = $this->view_data['tx'];
+	$charges = $this->view_data['charges'];
+?>	
+	<main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+				<?=$user['fullname']?>
+			</h2>
+			
+
+			<div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+						<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</div>
+					<div>
+					  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+						Total UGX Balance
+					  </p>
+					  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+						<?=$sum->ugx?>
+					  </p>
+					</div>
+				</div>
+				
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+						<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</div>
+					<div>
+					  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+						Total KES Balance
+					  </p>
+					  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+						<?=$sum->kes?>
+					  </p>
+					</div>
+				</div>
+				
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+						<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</div>
+					<div>
+					  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+						Total USD Balance
+					  </p>
+					  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+						<?=$sum->usd?>
+					  </p>
+					</div>
+				</div>
+				
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+					  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+						</svg>
+					</div>
+					<div>
+					  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+						Total Transactions
+					  </p>
+					  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+						<?=$txsum?>
+					  </p>
+					</div>
+				</div>
+				
+				<button  class="px-2" type="button">
+					<a href="<?=DOMAIN?>dashboard/customers/setwallet?user=<?=$user['member_id']?>" class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" style="background-color:#0694a2">
+						Set Wallet Amount
+					</a>
+				</button>
+				<?php
+					if($user['status'] == 'active'){
+						echo '<button  class="px-2" type="button">
+									<a href="'.DOMAIN.'dashboard/customers/deactive?user='.$user['member_id'].'" class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red"  style="background-color:red">
+										DEACTIVATE ACCOUNT
+									</a>
+								</button>';
+						
+					}else{
+						echo '<button  class="px-2" type="button">
+									<a href="'.DOMAIN.'dashboard/customers/active?user='.$user['member_id'].'" class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" style="background-color:green">
+										ACTIVATE ACCOUNT
+									</a>
+								</button>';
+					}
+				?>
+				
+				
+				<button  class="px-2" type="button">
+					<a href="<?=DOMAIN?>dashboard/customers/paycharge?user=<?=$user['member_id']?>" class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" style="background-color:indigo">
+						Update Charges
+					</a>
+				</button>
+				<button  class="px-2" type="button">
+					<a href="<?=DOMAIN?>dashboard/customers/delete?user=<?=$_GET['user']?>" class="flex items-center justify-between p-4 mb-8 text-white text-sm font-semibold text-orange-700 bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red">
+						Delete Account
+					</a>
+				</button>
+				
+            </div>
+			
+			<h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+				Personal Information
+            </h4>
+			<div class="grid gap-6 mb-8 md:grid-cols-2">
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Fullname
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$user['fullname']?>
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Phone Number
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$user['phone_number']?>
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Email
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$user['email']?>
+					</p>
+				</div>
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Member ID
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$user['member_id']?>
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+						Status 
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+						<?=$user['status']?>
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Created Date
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$user['created_date']?>
+					</p>
+				</div>
+            </div>
+			
+			<h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+				Payment Charges
+				
+            </h4>
+			<div class="grid gap-6 mb-8 md:grid-cols-2">
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Deposit Charge
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$charges['charge_deposit']?> %
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Withdraw Charge
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$charges['charge_withdraw']?> Unit
+					</p>
+				</div>
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Mobile Money Charge
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$charges['charge_momo']?> %
+					</p>
+					<h4 class="font-semibold text-gray-600 dark:text-gray-300">
+					  Credit Card Charge
+					</h4>
+					<p class="mb-4 text-gray-600 dark:text-gray-400">
+					  <?=$charges['charge_card']?> %
+					</p>
+				</div>
+            </div>
+			
+			<!-- New Table -->
+			<div class="w-full overflow-hidden rounded-lg shadow-xs mb-8">
+				<div class="w-full overflow-x-auto">
+					<div class="max-w-screen-lg mx-auto w-full h-full flex flex-col items-center justify-center">
+						<div x-data="dataTable()"
+							x-init="
+							initData()
+							$watch('searchInput', value => {
+							  search(value)
+							})" class="p-5 w-full flex flex-col dark:text-gray-400 dark:bg-gray-800 dark:border-gray-700">
+							<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+								<div class="p-4">
+									<input x-model="searchInput" type="text" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Search by Reference, Email or Date">
+								</div>
+							</div>
+							
+							<table class="w-full whitespace-no-wrap" id="dataTable">
+								<thead>
+									<tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+										<th class="px-4 py-3">Reference</th>
+										<th class="px-4 py-3">Phone Number</th>
+										<th class="px-4 py-3">Amount</th>
+										<th class="px-4 py-3">Type</th>
+										<th class="px-4 py-3">Status</th>
+										<th class="px-4 py-3">Date</th>
+									</tr>
+								</thead>
+								<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+									<template x-for="(item, index) in items" :key="index">
+										<tr x-show="checkView(index + 1)" class="text-sm text-gray-700 dark:text-white">
+											<td class="px-4 py-3">
+												<div class="flex items-center text-sm">
+													<div>
+														<p class="font-semibold" x-text="item.email"></p>
+														<p class="text-xs text-gray-600 dark:text-gray-400 uppercase" x-text="item.reference"></p>
+													</div>
+												</div>
+											</td>
+											<td class="px-4 py-3">
+												<p class="font-semibold" x-text="item.phone"></p>
+											</td>
+											<td class="px-4 py-3">
+												<p class="font-semibold" x-text="item.amount"> </p>
+												<small x-text="item.currency"></small>
+											</td>
+											<td class="px-4 py-3">
+												<span class=" py-1 uppercase font-semibold leading-tight rounded-full text-black dark:text-white" x-text="item.type"></span>
+											</td>
+											<template x-if="item.status == 'success'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<template x-if="item.status == 'failed'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<template x-if="item.status == 'pending'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-orange-700 bg-orange-100 dark:bg-yellow-700 dark:text-yellow-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<td class="px-4 py-3">
+												<span x-text="item.timestamp"></span>
+											</td>
+										</tr>
+									</template>
+									<tr x-show="isEmpty()">
+										<td colspan="5" class="text-center py-3 text-gray-900 text-sm">No matching records found.</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+								<span class="flex items-center col-span-3"></span>
+								<span class="col-span-2"></span>
+								<!-- Pagination -->
+								<span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+									<nav aria-label="Table navigation">
+										<ul class="inline-flex items-center">
+											<li>
+												<button class="px-3 py-1 mx-2 border rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous" @click="changePage(currentPage - 1)">
+													NEXT
+												</button>
+											</li>
+											
+											<li>
+												<button class="px-3 py-1 mx-2 border rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next" @click="changePage(currentPage + 1)">
+													PREV
+												</button>
+											</li>
+										</ul>
+									</nav>
+								</span>
+							</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+		</div>
+    </main>
+</div>
+</div>
+<?php
+$data = [];
+foreach($tx as $entry){
+	array_push($data, array('email' => $entry['email_address'],
+							'reference' => $entry['txref'],
+							'phone' => $entry['mobile_number'],
+							'amount' => number_format($entry['total_amount']),
+							'currency' => $entry['currency'],
+							'fee' => number_format($entry['amount_charge']),
+							'type' => strtoupper($entry['tx_type']),
+							'status' => $entry['status'],
+							'timestamp' => date('F d, Y h:i:s a', strtotime($entry['tx_timestamp']))));
+}
+?>
+<script>
+let dati = <?=json_encode($data);?>;
+</script>	
+<!-- partial -->
+<script src='https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js'></script>
+<script  src="<?=DOMAIN?>assets/js/datatable.js"></script>

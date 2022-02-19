@@ -1,0 +1,236 @@
+<?php
+	$tx = $this->view_data['txlist'];
+	$chart = $this->view_data['chart'];
+	$momo_ratio = $this->view_data['momo_ratio'];
+	$card_ratio = $this->view_data['card_ratio'];
+	$volume = $this->view_data['volume'];
+?>	
+	<main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Payment Transactions</h2>
+						
+			<div class="grid gap-6 mb-8 md:grid-cols-2">
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">Payments Type Ratio</h4>
+					<canvas id="pie"></canvas>
+					<div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
+						<!-- Chart legend -->
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
+							<span>Mobile Money</span>
+						</div>
+						
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
+							<span>Card Payments</span>
+						</div>
+					</div>
+				</div>
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">Yearly Transactions</h4>
+					<canvas id="bars"></canvas>
+					<div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
+						<!-- Chart legend -->
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+							<span>Number of Payments</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- New Table -->
+			<div class="w-full overflow-hidden rounded-lg shadow-xs mb-8">
+				<div class="w-full overflow-x-auto">
+					<div class="max-w-screen-lg mx-auto w-full h-full flex flex-col items-center justify-center">
+						<div x-data="dataTable()"
+							x-init="
+							initData()
+							$watch('searchInput', value => {
+							  search(value)
+							})" class="p-5 w-full flex flex-col dark:text-gray-400 dark:bg-gray-800 dark:border-gray-700">
+							<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+								<div class="p-4">
+									<input x-model="searchInput" type="text" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Search by Reference, Email or Date">
+								</div>
+							</div>
+							
+							<table class="w-full whitespace-no-wrap" id="dataTable">
+								<thead>
+									<tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+										<th class="px-4 py-3">Reference</th>
+										<th class="px-4 py-3">Phone Number</th>
+										<th class="px-4 py-3">Amount</th>
+										<th class="px-4 py-3">Fee</th>
+										<th class="px-4 py-3">Type</th>
+										<th class="px-4 py-3">Status</th>
+										<th class="px-4 py-3">Date</th>
+									</tr>
+								</thead>
+								<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+									<template x-for="(item, index) in items" :key="index">
+										<tr x-show="checkView(index + 1)" class="text-sm text-gray-700 dark:text-white">
+											<td class="px-4 py-3">
+												<div class="flex items-center text-sm">
+													<div>
+														<p class="font-semibold" x-text="item.email"></p>
+														<p class="text-xs text-gray-600 dark:text-gray-400 uppercase" x-text="item.reference"></p>
+													</div>
+												</div>
+											</td>
+											<td class="px-4 py-3">
+												<p class="font-semibold" x-text="item.phone"></p>
+											</td>
+											<td class="px-4 py-3">
+												<p class="font-semibold" x-text="item.amount"> </p>
+												<small x-text="item.currency"></small>
+											</td>
+											<td class="px-4 py-3">
+												<p class="font-semibold" x-text="item.fee"></p>
+												<small x-text="item.currency"> </small>
+											</td>
+											<td class="px-4 py-3">
+												<span class=" py-1 uppercase font-semibold leading-tight rounded-full text-black dark:text-white" x-text="item.type"></span>
+											</td>
+											<template x-if="item.status == 'success'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<template x-if="item.status == 'failed'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<template x-if="item.status == 'pending'">
+												<td class="px-4 py-3">
+													<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-orange-700 bg-orange-100 dark:bg-yellow-700 dark:text-yellow-100" x-text="item.status"></span>
+												</td>
+											</template>
+											<td class="px-4 py-3">
+												<span x-text="item.timestamp"></span>
+											</td>
+										</tr>
+									</template>
+									<tr x-show="isEmpty()">
+										<td colspan="5" class="text-center py-3 text-gray-900 text-sm">No matching records found.</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+								<span class="flex items-center col-span-3"></span>
+								<span class="col-span-2"></span>
+								<!-- Pagination -->
+								<span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+									<nav aria-label="Table navigation">
+										<ul class="inline-flex items-center">
+											<li>
+												<button class="px-3 py-1 mx-2 border rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous" @click="changePage(currentPage - 1)">
+													NEXT
+												</button>
+											</li>
+											
+											<li>
+												<button class="px-3 py-1 mx-2 border rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next" @click="changePage(currentPage + 1)">
+													PREV
+												</button>
+											</li>
+										</ul>
+									</nav>
+								</span>
+							</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+			
+		</div>
+    </main>
+
+</div>
+</div>
+<script>
+/**
+ * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
+ */
+const barConfig = {
+  type: 'bar',
+  data: {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    datasets: [{
+        label: 'Transactions',
+        backgroundColor: '#7e3af2',
+        borderWidth: 1,
+        data: [<?php foreach($chart as $month) {echo $month.',';}?>],
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    legend: {
+      display: false,
+    },
+  },
+}
+
+const barsCtx = document.getElementById('bars')
+window.myBar = new Chart(barsCtx, barConfig)
+
+
+/**
+ * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
+ */
+const pieConfig = {
+  type: 'doughnut',
+  data: {
+    datasets: [
+      {
+        data: [<?=($card_ratio.','.$momo_ratio)?>],
+        /**
+         * These colors come from Tailwind CSS palette
+         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
+         */
+        backgroundColor: ['#0694a2', '#1c64f2'],
+        label: 'Payments',
+      },
+    ],
+    labels: ['Card Payment', 'Mobile Money'],
+  },
+  options: {
+    responsive: true,
+    cutoutPercentage: 80,
+    /**
+     * Default legends are ugly and impossible to style.
+     * See examples in charts.html to add your own legends
+     *  */
+    legend: {
+      display: false,
+    },
+  },
+}
+
+// change this to the id of your chart element in HMTL
+const pieCtx = document.getElementById('pie')
+window.myPie = new Chart(pieCtx, pieConfig)
+
+</script>
+<?php
+$data = [];
+foreach($tx as $entry){
+	array_push($data, array('email' => $entry['email_address'],
+							'reference' => $entry['txref'],
+							'phone' => $entry['mobile_number'],
+							'amount' => number_format($entry['total_amount']),
+							'currency' => $entry['currency'],
+							'fee' => number_format($entry['amount_charge']),
+							'type' => strtoupper($entry['tx_type']),
+							'status' => $entry['status'],
+							'timestamp' => date('F d, Y h:i:s a', strtotime($entry['tx_timestamp']))));
+}
+?>
+<script>
+let dati = <?=json_encode($data);?>;
+</script>	
+<!-- partial -->
+<script src='https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js'></script>
+<script  src="<?=DOMAIN?>assets/js/datatable.js"></script>

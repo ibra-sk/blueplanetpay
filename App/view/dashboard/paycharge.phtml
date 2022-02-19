@@ -1,0 +1,48 @@
+<?php
+	$charges = $this->view_data['charges'];
+	$user_id = $this->view_data['user_id'];
+?>	
+	<main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+			<div class="flex items-stretch justify-items-stretch my-6 ">
+				<h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 w-1/2">Update Payment Charge</h2>
+			</div>
+			
+			<form action="<?=DOMAIN?>dashboard/customers/paycharge?user=<?=$user_id?>" method="POST">
+			<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Mobile Money Charge</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input name="ch_momo" type="number" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Set MoMo charge in percentage" value="<?=$charges['charge_momo']?>" required>
+					</div>
+				</label>
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Card Charge</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input name="ch_card" type="number" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Set Card charge in percentage" value="<?=$charges['charge_card']?>" required>
+					</div>
+				</label>
+				<label class="block mt-4 text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Withdraw Charge</span>
+					<!-- focus-within sets the color for the icon when input is focused -->
+					<div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+						<input name="ch_withdraw" type="number" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Set Withdraw charge in unit" value="<?=$charges['charge_withdraw']?>" required>
+					</div>
+				</label>
+				<input type="text" name="user_id" value="<?=$user_id?>" hidden>
+            </div>
+			
+				<button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="background-color:green">
+					Save Changes
+				</button>
+			</form>
+			
+			
+		</div>
+		
+    </main>
+	
+</div>
+</div>

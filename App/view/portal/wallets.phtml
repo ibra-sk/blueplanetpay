@@ -1,0 +1,201 @@
+<?php
+	$tx = $this->view_data['list'];
+	$sum = $this->view_data['sum'];
+	$ugx_ratio = $this->view_data['ugx_ratio'];
+	$kes_ratio = $this->view_data['kes_ratio'];
+	$usd_ratio = $this->view_data['usd_ratio'];
+?>
+	<main class="h-full overflow-y-auto" id="divMain">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Wallet Dashboard</h2>
+			<?php
+				//Check if Account is Not Verified
+				$account_status = $this->view_data['member_status'];
+				if($account_status == 'pending'){
+					echo '<a class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-orange-700 bg-orange-100 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" href="'.DOMAIN.'portal/account/verification">
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+							</svg>
+							<span>This Account is not Active Yet, Please Upload your KYC information for review.</span>
+						</div>
+						<span>Upload Now →</span>
+					</a>';
+				}
+			
+			?>
+			<!-- Cards -->
+			<div class="grid grid-cols-3 gap-4 mb-8 ">
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+						</svg>
+					</div>
+					<div>
+						<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">Total Wallet Amount</p>
+						<p class="text-lg font-semibold text-gray-700 dark:text-gray-200"><?=number_format($sum->ugx);?> UGX</p>
+					</div>
+				</div>
+				
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+						</svg>
+					</div>
+					<div>
+						<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">Total Wallet Amount</p>
+						<p class="text-lg font-semibold text-gray-700 dark:text-gray-200"><?=number_format($sum->kes);?> KES</p>
+					</div>
+				</div>
+				
+				<!-- Card -->
+				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+						</svg>
+					</div>
+					<div>
+						<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">Total Wallet Amount</p>
+						<p class="text-lg font-semibold text-gray-700 dark:text-gray-200"><?=number_format($sum->usd);?> USD</p>
+					</div>
+				</div>
+			</div>
+			<!-- New Table -->
+            <h2 class="my-6 text-md font-semibold text-gray-700 dark:text-gray-200">Recent Transactions</h2>
+			<div class="w-full overflow-hidden rounded-lg shadow-xs mb-8">
+				<div class="w-full overflow-x-auto">
+					<table class="w-full whitespace-no-wrap" id="dataTable">
+						<thead>
+							<tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+								<th class="px-4 py-3">Reference</th>
+								<th class="px-4 py-3">Phone Number</th>
+								<th class="px-4 py-3">Amount</th>
+								<th class="px-4 py-3">Fee</th>
+								<th class="px-4 py-3">Type</th>
+								<th class="px-4 py-3">Status</th>
+								<th class="px-4 py-3">Date</th>
+							</tr>
+						</thead>
+						<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+						
+							<?php
+								//$users = $this->view_data['users'];
+								foreach($tx as $entry){
+									if($entry['status'] == 'success'  ){ $color = 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100';}
+									if($entry['status'] == 'failed'){ $color = 'text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100';}
+									if($entry['status'] == 'pending' ){ $color = 'text-orange-700 bg-orange-100 dark:bg-yellow-700 dark:text-yellow-100';}
+									$date = date('F d, Y h:i:s a', strtotime($entry['tx_timestamp']));
+									echo '<tr class="text-gray-700 dark:text-white">
+											<td class="px-4 py-3">
+												<div class="flex items-center text-sm">
+													<div>
+														<p class="font-semibold">'.$entry['email_address'].'</p>
+														<p class="text-xs text-gray-600 dark:text-gray-400">'.$entry['txref'].'</p>
+													</div>
+												</div>
+											</td>
+											<td class="px-4 py-3 text-sm">
+												<p class="font-semibold">'.$entry['mobile_number'].'</small></p>
+											</td>
+											<td class="px-4 py-3 text-sm">
+												<p class="font-semibold">'.number_format($entry['total_amount']).'</p>
+												<small> '.$entry['currency'].'</small>
+											</td>
+											<td class="px-4 py-3 text-sm">
+												<p class="font-semibold">'.number_format($entry['amount_charge']).'</p>
+												<small> '.$entry['currency'].'</small>
+											</td>
+											<td class="px-4 py-3 text-xs">
+												<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full text-black dark:text-white">'.strtoupper($entry['tx_type']).'</span>
+											</td>
+											<td class="px-4 py-3 text-xs">
+												<span class="px-2 py-1 uppercase font-semibold leading-tight rounded-full '.$color.'">'.$entry['status'].'</span>
+											</td>
+											<td class="px-4 py-3 text-sm">'.$date.'</td>
+										</tr>';
+								}
+								if(count($tx) == 0){
+									echo '<tr x-show="isEmpty()">
+											<td colspan="7" class="text-center py-3 text-gray-900 text-sm">No Transactions records found.</td>
+										</tr>';
+								}
+							?>
+							
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="grid gap-6 mb-8 md:grid-cols-2">
+				<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+					<h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">Wallet Ratio</h4>
+					<canvas id="pie"></canvas>
+					<div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
+						<!-- Chart legend -->
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
+							<span>UGX</span>
+						</div>
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
+							<span>KES</span>
+						</div>
+						<div class="flex items-center">
+							<span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+							<span>USD</span>
+						</div>
+					</div>
+				</div>
+				<div class="min-w-0 px-4">
+					
+				</div>
+			</div>
+			
+		</div>
+    </main>
+	
+</div>
+</div>
+<script>
+/**
+ * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
+ */
+const pieConfig = {
+  type: 'doughnut',
+  data: {
+    datasets: [
+      {
+        data: [<?=($kes_ratio.','.$ugx_ratio.','.$usd_ratio)?>],
+        /**
+         * These colors come from Tailwind CSS palette
+         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
+         */
+        backgroundColor: ['#0694a2', '#1c64f2', '#7e3af2'],
+        label: 'Payments',
+      },
+    ],
+    labels: ['KES', 'UGX', 'USD'],
+  },
+  options: {
+    responsive: true,
+    cutoutPercentage: 80,
+    /**
+     * Default legends are ugly and impossible to style.
+     * See examples in charts.html to add your own legends
+     *  */
+    legend: {
+      display: false,
+    },
+  },
+}
+
+// change this to the id of your chart element in HMTL
+const pieCtx = document.getElementById('pie')
+window.myPie = new Chart(pieCtx, pieConfig)
+
+</script>
